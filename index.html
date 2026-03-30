@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hazım | Squad Hub 3.0</title>
-    <!-- Firebase SDK (Bağlantı için şart) -->
+    <title>Hazım | Website 3.0</title>
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-database-compat.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
@@ -58,10 +58,12 @@
         .icon-box { font-size: 20px; margin-right: 15px; }
         .link-text b { display: block; font-size: 15px; }
         .link-text span { font-size: 12px; color: var(--secondary); }
-        .box-container { background: var(--card-bg); border-radius: 20px; padding: 10px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
+
+        /* Devre Dışı Link Stili */
+        .link-disabled { opacity: 0.5; pointer-events: none; cursor: not-allowed; }
 
         /* --- ADMIN PANEL MODAL --- */
-        #admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #111; padding: 25px; border-radius: 25px; border: 2px solid var(--primary); z-index: 2000; width: 85%; max-width: 350px; }
+        #admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #111; padding: 25px; border-radius: 25px; border: 2px solid var(--primary); z-index: 2000; width: 85%; max-width: 350px; box-shadow: 0 0 50px rgba(0,0,0,0.9); }
         .admin-input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #333; background: #000; color: white; box-sizing: border-box; }
         .admin-btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; }
         #admin-auth-trigger { text-align: center; margin-top: 30px; opacity: 0.2; font-size: 10px; cursor: pointer; }
@@ -81,7 +83,6 @@
 
     <div class="wrapper">
         
-        <!-- SEKMELER: HUB -->
         <div id="home" class="tab-content active">
             <div class="home-container">
                 <aside class="side-dock">
@@ -94,8 +95,8 @@
 
                 <div class="main-col">
                     <div class="profile">
-                        <img src="logo.png" alt="Logo" class="avatar-img">
-                        <h1>Squad Hub 3.0</h1>
+                        <img src="logo0.png" alt="Logo" class="avatar-img">
+                        <h1>SquadWeb 3.0</h1>
                         <span id="greeting" class="badge">Sistem Yükleniyor...</span>
                     </div>
 
@@ -104,21 +105,24 @@
                         <div id="digital-date">Yükleniyor...</div>
                     </div>
 
-                    <!-- TRANSFER HUB (Firebase'den Beslenen Dinamik Alan) -->
+                    <!-- TRANSFER HUB -->
                     <div class="section-title">Squad Transfer Hub</div>
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
-                        <a href="#" id="fb-file-link" class="link-card" style="border-bottom: 3px solid var(--tech-green); margin-bottom: 0;" download>
+                        <!-- Dosya Butonu -->
+                        <a href="javascript:void(0)" id="fb-file-link" class="link-card link-disabled" style="border-bottom: 3px solid var(--tech-green); margin-bottom: 0;">
                             <div class="icon-box">📁</div>
-                            <div class="link-text"><b id="fb-file-name">Dosya</b><span>İndir</span></div>
+                            <div class="link-text"><b id="fb-file-name">Paylaşım Yok</b><span id="fb-file-desc">Bekleniyor...</span></div>
                         </a>
-                        <a href="#" id="fb-img-link" class="link-card" style="border-bottom: 3px solid var(--weather-blue); margin-bottom: 0;" target="_blank">
+                        <!-- Görsel Butonu -->
+                        <a href="javascript:void(0)" id="fb-img-link" class="link-card link-disabled" style="border-bottom: 3px solid var(--weather-blue); margin-bottom: 0;" target="_blank">
                             <div class="icon-box">🖼️</div>
-                            <div class="link-text"><b>Son Görsel</b><span>Görüntüle</span></div>
+                            <div class="link-text"><b id="fb-img-name">Görsel Yok</b><span>Görüntüle</span></div>
                         </a>
                     </div>
-                    <a href="#" id="fb-special-link" class="link-card" style="border-left: 4px solid #ff9f43;" target="_blank">
+                    <!-- Özel Link Butonu -->
+                    <a href="javascript:void(0)" id="fb-special-link" class="link-card link-disabled" style="border-left: 4px solid #ff9f43;" target="_blank">
                         <div class="icon-box">🔗</div>
-                        <div class="link-text"><b id="fb-link-title">Özel Bağlantı</b><span id="fb-link-desc">Güncel link için tıkla</span></div>
+                        <div class="link-text"><b id="fb-link-title">Bağlantı Yok</b><span id="fb-link-desc">Güncelleme bekleniyor</span></div>
                     </a>
 
                     <div class="section-title">Hızlı Erişim</div>
@@ -132,11 +136,10 @@
                     </div>
                 </div>
             </div>
-            <!-- GIZLI ADMIN BUTONU -->
             <div id="admin-auth-trigger" onclick="showAdmin()">Yönetici Girişi</div>
         </div>
 
-        <!-- SEKME 2: SOSYAL -->
+        <!-- SOSYAL VE SİSTEM SEKMELERİ AYNI KALDI -->
         <div id="social" class="tab-content">
             <div class="section-title">Grup Odası</div>
             <a href="https://meet.google.com/zsf-jask-syr" class="link-card" target="_blank"><div class="icon-box">📹</div><div class="link-text"><b>Google Meet</b><span>Grup ile görüntülü görüşme</span></div></a>
@@ -145,7 +148,6 @@
             <div class="box-container"><iframe src="https://www5.cbox.ws/box/?boxid=962200&boxtag=eafgRP" width="100%" height="350" frameborder="0" scrolling="auto"></iframe></div>
         </div>
 
-        <!-- SEKME 3: SİSTEM -->
         <div id="hardware" class="tab-content">
             <div class="section-title">Donanım</div>
             <div class="link-card" style="border-left: 4px solid var(--tech-green);"><div class="icon-box">💻</div><div class="link-text"><b>Monster Abra A7</b><span>i7-13700HX | RTX 5050 | 48GB DDR5</span></div></div>
@@ -159,7 +161,7 @@
         <footer>Squad Base 3.0 | Powered by Hazım</footer>
     </div>
 
-    <!-- ADMIN PANEL MODAL (Telefondan Yönetim İçin) -->
+    <!-- ADMIN PANEL -->
     <div id="admin-panel">
         <h2 style="margin-top:0; font-size: 18px; color: var(--primary);">Hub Panel</h2>
         <input type="text" id="inp-file-name" class="admin-input" placeholder="Dosya Adı">
@@ -172,7 +174,6 @@
     </div>
 
     <script>
-        // --- SENİN FIREBASE VERİLERİN ---
         const firebaseConfig = {
             apiKey: "AIzaSyBLMFKxkKe9oj3xlV0SCkb1ZVG9HnzJlyo",
             authDomain: "squadhubwebsite.firebaseapp.com",
@@ -185,17 +186,54 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Firebase'den Veri Dinleme
+        // Firebase Veri Dinleme (Gelişmiş Kontrollü)
         db.ref('transferHub').on('value', (snap) => {
             const data = snap.val();
             if(data) {
-                document.getElementById('fb-file-name').innerText = data.fileName || "Dosya";
-                document.getElementById('fb-file-link').href = data.fileUrl || "#";
-                document.getElementById('fb-img-link').href = data.imgUrl || "#";
-                document.getElementById('fb-link-title').innerText = data.linkTitle || "Bağlantı";
-                document.getElementById('fb-special-link').href = data.linkUrl || "#";
+                // DOM Elemanları
+                const fileLink = document.getElementById('fb-file-link');
+                const imgLink = document.getElementById('fb-img-link');
+                const specLink = document.getElementById('fb-special-link');
+
+                // DOSYA KONTROLÜ
+                if(data.fileUrl && data.fileUrl.trim() !== "" && data.fileUrl !== "#") {
+                    document.getElementById('fb-file-name').innerText = data.fileName || "Dosya";
+                    document.getElementById('fb-file-desc').innerText = "İndir";
+                    fileLink.href = data.fileUrl;
+                    fileLink.classList.remove('link-disabled');
+                    fileLink.setAttribute("download", "");
+                } else {
+                    document.getElementById('fb-file-name').innerText = "Paylaşım Yok";
+                    document.getElementById('fb-file-desc').innerText = "Güncelleme Bekleniyor";
+                    fileLink.href = "javascript:void(0)";
+                    fileLink.classList.add('link-disabled');
+                }
+
+                // GÖRSEL KONTROLÜ
+                if(data.imgUrl && data.imgUrl.trim() !== "" && data.imgUrl !== "#") {
+                    document.getElementById('fb-img-name').innerText = "Son Görsel";
+                    imgLink.href = data.imgUrl;
+                    imgLink.classList.remove('link-disabled');
+                } else {
+                    document.getElementById('fb-img-name').innerText = "Görsel Yok";
+                    imgLink.href = "javascript:void(0)";
+                    imgLink.classList.add('link-disabled');
+                }
+
+                // ÖZEL LİNK KONTROLÜ
+                if(data.linkUrl && data.linkUrl.trim() !== "" && data.linkUrl !== "#") {
+                    document.getElementById('fb-link-title').innerText = data.linkTitle || "Bağlantı";
+                    document.getElementById('fb-link-desc').innerText = "Bağlantıya gitmek için tıkla";
+                    specLink.href = data.linkUrl;
+                    specLink.classList.remove('link-disabled');
+                } else {
+                    document.getElementById('fb-link-title').innerText = "Bağlantı Bekleniyor";
+                    document.getElementById('fb-link-desc').innerText = "Henüz bir paylaşım yapılmadı";
+                    specLink.href = "javascript:void(0)";
+                    specLink.classList.add('link-disabled');
+                }
                 
-                // Formu da güncelle (panel açıldığında eski veriler görünsün)
+                // Admin inputlarını doldur
                 document.getElementById('inp-file-name').value = data.fileName || "";
                 document.getElementById('inp-file-url').value = data.fileUrl || "";
                 document.getElementById('inp-img-url').value = data.imgUrl || "";
@@ -204,14 +242,8 @@
             }
         });
 
-        // Admin Fonksiyonları
-        function showAdmin() { 
-            const pw = prompt("Yönetici Şifresi:"); 
-            if(pw === "0303") document.getElementById('admin-panel').style.display = 'block'; 
-            else alert("Hatalı!"); 
-        }
+        function showAdmin() { const pw = prompt("Yönetici Şifresi:"); if(pw === "0303") document.getElementById('admin-panel').style.display = 'block'; else alert("Hatalı!"); }
         function closeAdmin() { document.getElementById('admin-panel').style.display = 'none'; }
-        
         function saveToFirebase() {
             db.ref('transferHub').set({
                 fileName: document.getElementById('inp-file-name').value,
@@ -219,10 +251,7 @@
                 imgUrl: document.getElementById('inp-img-url').value,
                 linkTitle: document.getElementById('inp-link-title').value,
                 linkUrl: document.getElementById('inp-link-url').value
-            }).then(() => { 
-                alert("Başarıyla Güncellendi!"); 
-                closeAdmin(); 
-            }).catch(e => alert("Hata: " + e));
+            }).then(() => { alert("Başarıyla Güncellendi!"); closeAdmin(); });
         }
 
         // --- DİĞER FONKSİYONLAR ---
