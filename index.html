@@ -66,17 +66,15 @@
         .link-text span { font-size: 12px; color: var(--secondary); }
         .link-disabled { opacity: 0.5; pointer-events: none; cursor: not-allowed; }
 
-        /* --- DROPZONE YENİ TASARIM --- */
+        /* DROPZONE */
         .drop-zone { background: rgba(0, 123, 255, 0.05); border: 2px dashed var(--primary); border-radius: 20px; padding: 25px; text-align: center; margin-bottom: 20px; transition: 0.3s; }
         .drop-input { width: 100%; background: #111; border: 1px solid #333; color: white; padding: 12px; border-radius: 12px; margin-bottom: 10px; box-sizing: border-box; font-size: 13px; outline: none; }
-        .file-select-btn { background: #222; border: 1px solid var(--primary); color: white; padding: 12px; border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 600; display: inline-block; width: 100%; box-sizing: border-box; margin-bottom: 10px; transition: 0.3s; }
-        .file-select-btn:hover { background: var(--primary); }
+        .file-select-btn { background: #222; border: 1px solid var(--primary); color: white; padding: 12px; border-radius: 12px; cursor: pointer; font-size: 12px; font-weight: 600; display: inline-block; width: 100%; box-sizing: border-box; margin-bottom: 10px; }
         .drop-btn { width: 100%; background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 800; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,123,255,0.3); }
-        .drop-btn:disabled { background: #444; cursor: not-allowed; }
 
         /* ADMIN INBOX */
         .drop-item { background: #111; border: 1px solid #333; padding: 12px; border-radius: 12px; margin-bottom: 10px; }
-        .drop-header { display: flex; justify-content: space-between; font-size: 11px; color: var(--tech-green); margin-bottom: 5px; font-weight: 800; }
+        .drop-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 11px; color: var(--tech-green); font-weight: 800; }
         .drop-body { color: #eee; word-break: break-all; margin-bottom: 8px; display: block; font-size: 13px; }
         .drop-actions { display: flex; gap: 8px; }
         .drop-actions a, .drop-actions button { background: #222; border: 1px solid #444; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; text-decoration: none; }
@@ -85,7 +83,10 @@
         #ai-widget { position: fixed; bottom: 100px; right: 20px; z-index: 2000; }
         .ai-btn { width: 55px; height: 55px; border-radius: 50%; background: var(--bg); border: 2px solid var(--primary); color: white; font-size: 24px; cursor: pointer; box-shadow: 0 0 15px var(--primary); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
         #ai-window { display: none; position: absolute; bottom: 70px; right: 0; width: 300px; height: 400px; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px); border: 1px solid var(--primary); border-radius: 20px; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        
+        .msg { padding: 8px 12px; border-radius: 12px; max-width: 85%; line-height: 1.4; font-size: 13px; }
+        .user-msg { background: var(--primary); align-self: flex-end; color: white; border-bottom-right-radius: 2px; }
+        .bot-msg { background: #222; align-self: flex-start; color: #ccc; border-bottom-left-radius: 2px; border: 1px solid #333; }
+
         /* Harita */
         #map-container-hub, #map-container-admin { width: 100%; height: 220px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); margin-top: 10px; z-index: 10; filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(85%); }
 
@@ -101,12 +102,11 @@
 
     <canvas id="bg-canvas"></canvas>
 
-    <!-- AI WIDGET -->
     <div id="ai-widget">
         <button class="ai-btn" onclick="toggleAI()">✨</button>
         <div id="ai-window">
             <div style="background:var(--primary); padding:12px; font-size:14px; font-weight:800; display:flex; justify-content:space-between; align-items:center;">Squad Assistant <span style="cursor:pointer" onclick="toggleAI()">×</span></div>
-            <div id="ai-messages" style="flex:1; padding:15px; overflow-y:auto; font-size:13px; display:flex; flex-direction:column; gap:10px;"></div>
+            <div id="ai-messages"></div>
             <div style="display:flex; padding:10px; background:#000; border-top:1px solid #222;">
                 <input type="text" id="ai-input" style="flex:1; background:transparent; border:none; color:white; outline:none;" placeholder="Bir şeyler sor..." onkeypress="handleChat(event)">
             </div>
@@ -122,7 +122,6 @@
     </nav>
 
     <div class="wrapper">
-        <!-- HUB SEKME -->
         <div id="home" class="tab-content active">
             <div class="home-container">
                 <aside class="side-dock">
@@ -133,7 +132,7 @@
                 </aside>
 
                 <div class="main-col">
-                    <div id="announcement-bar" style="background: rgba(255, 159, 67, 0.1); border: 1px solid #ff9f43; color: #ff9f43; padding: 12px; border-radius: 18px; margin-bottom: 15px; font-size: 13px; text-align: center; display: none; box-shadow: 0 0 10px rgba(255,159,67,0.2);">
+                    <div id="announcement-bar" style="background: rgba(255, 159, 67, 0.1); border: 1px solid #ff9f43; color: #ff9f43; padding: 12px; border-radius: 18px; margin-bottom: 15px; font-size: 13px; text-align: center; display: none;">
                         📢 <b style="color:white;">Squad Duyuru:</b> <span id="ann-text"></span>
                     </div>
 
@@ -190,7 +189,6 @@
             </div>
         </div>
 
-        <!-- SOSYAL SEKME -->
         <div id="social" class="tab-content">
             <div class="section-title">Grup Odası</div>
             <a href="https://meet.google.com/zsf-jask-syr" class="link-card" target="_blank"><div class="icon-box">📹</div><div class="link-text"><b>Google Meet</b><span>Görüntülü Görüşme</span></div></a>
@@ -201,7 +199,6 @@
             <div class="box-container" style="border-radius: 18px; overflow: hidden;"><iframe src="https://www5.cbox.ws/box/?boxid=962200&boxtag=eafgRP" width="100%" height="350" frameborder="0" scrolling="auto"></iframe></div>
         </div>
 
-        <!-- SİSTEM SEKME -->
         <div id="hardware" class="tab-content">
             <div class="section-title">Donanım</div>
             <div class="link-card" style="border-left: 4px solid var(--tech-green);"><div class="icon-box">💻</div><div class="link-text"><b>Monster Abra A7</b><span>i7-13700HX | RTX 5050 | 48GB DDR5</span></div></div>
@@ -210,31 +207,23 @@
             <div class="section-title">Network & Test</div>
             <div class="link-card" style="border-left: 4px solid #fbbc05;">
                 <div class="icon-box">📶</div>
-                <div class="link-text">
-                    <b>Canlı Ping: <span id="ping-val">--</span>ms</b>
-                    <span>Gerçek Sunucu Tepkisi</span>
-                </div>
+                <div class="link-text"><b>Canlı Ping: <span id="ping-val">--</span>ms</b><span>Gerçek Sunucu Tepkisi</span></div>
             </div>
             <div class="link-card" onclick="toggleSpeedtest()" id="st-launcher" style="border-left: 4px solid var(--primary);">
-                <div class="icon-box">🚀</div>
-                <div class="link-text"><b>Hız Testini Başlat</b></div>
+                <div class="icon-box">🚀</div><div class="link-text"><b>Hız Testini Başlat</b></div>
             </div>
             <div id="speedtest-area" style="display:none;"><div class="box-container" style="padding: 0; background: #000;"><iframe id="speed-frame" src="" style="width:100%; height:500px; border:none; filter:invert(1) brightness(0.9);"></iframe></div><button class="admin-btn" onclick="closeSpeedtest()" style="background:var(--meet-red); margin-top:10px;">Hız Testini Kapat</button></div>
         </div>
 
-        <!-- ADMIN PANELİ -->
         <div id="admin-dashboard" class="tab-content">
             <div class="profile"><h1 style="color: #ff4d4d; font-size: 26px;">Admin Paneli</h1><span class="badge" style="color: #ff9999;">Sistem Kontrol Paneli Aktif</span></div>
-            
             <div class="section-title">📥 Drive Dropbox (Son 1 Ay)</div>
-            <div class="admin-card" id="admin-drop-list"><p style="color: #999; font-size: 12px; text-align: center;">Kutu taranıyor...</p></div>
-            
+            <div class="admin-card" id="admin-drop-list"><p style="color: #999; font-size: 12px; text-align: center;">Taranıyor...</p></div>
             <div class="section-title">Harita Kontrolü</div>
             <div class="admin-card">
                 <div style="display: flex; gap:10px; margin-bottom: 10px;"><input type="text" id="inp-lat" class="admin-input" placeholder="Lat" readonly><input type="text" id="inp-lng" class="admin-input" placeholder="Lng" readonly></div>
                 <div id="map-container-admin"></div><button class="admin-btn" onclick="updateLocation()">LOKASYONU GÜNCELLE</button>
             </div>
-            
             <div class="section-title">Hub Transfer & Duyuru</div>
             <div class="admin-card">
                 <input type="text" id="inp-announcement" class="admin-input" placeholder="📢 Canlı Duyuru">
@@ -247,7 +236,6 @@
             </div>
             <button class="admin-btn" style="background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d;" onclick="logoutAdmin()">🚪 OTURUMU KAPAT</button>
         </div>
-        
         <footer>Squad Base 3.0 | Powered by Hazım</footer>
     </div>
 
@@ -255,9 +243,81 @@
         const firebaseConfig = { apiKey: "AIzaSyBLMFKxkKe9oj3xlV0SCkb1ZVG9HnzJlyo", authDomain: "squadhubwebsite.firebaseapp.com", databaseURL: "https://squadhubwebsite-default-rtdb.firebaseio.com", projectId: "squadhubwebsite", storageBucket: "squadhubwebsite.firebasestorage.app", messagingSenderId: "388592976001", appId: "1:388592976001:web:a97adc7dc6cda836204d80" };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxf0xq93dECfteJtaDQxZVl78-LVvLVRRd_LPTK9zXEwmR5LXHhnWYJ3HhqWnqD8X1mrg/exec";
+        
+        // --- İKİLİ URL YAPISI ---
+        const AI_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxaYaD_hj09QxusMEcqPplGYUAMrmIl54VQe2weBKpt_3YEqA1Bom9CRWklE2HjUjtm/exec"; 
+        const DRIVE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxf0xq93dECfteJtaDQxZVl78-LVvLVRRd_LPTK9zXEwmR5LXHhnWYJ3HhqWnqD8X1mrg/exec";
 
-        // --- DROPBOX & DRIVE LOGIC ---
+        // --- AI MODULE (WITH MIDNIGHT RESET) ---
+        function getChatHistory() {
+            const today = new Date().toLocaleDateString('tr-TR');
+            const savedDate = localStorage.getItem('squadChatDate');
+            if (savedDate !== today) {
+                localStorage.removeItem('squadChatHistory');
+                localStorage.setItem('squadChatDate', today);
+                return [];
+            }
+            return JSON.parse(localStorage.getItem('squadChatHistory')) || [];
+        }
+
+        let chatHistory = getChatHistory();
+
+        function renderAIChat() {
+            const cont = document.getElementById('ai-messages');
+            if (chatHistory.length === 0) {
+                cont.innerHTML = '<div class="msg bot-msg">Sistem hazır. Analiz için giriş bekleniyor... ⚡</div>';
+            } else {
+                cont.innerHTML = '';
+                chatHistory.forEach(m => {
+                    cont.innerHTML += `<div class="msg ${m.role === 'bot' ? 'bot-msg' : 'user-msg'}">${m.text}</div>`;
+                });
+            }
+            cont.scrollTop = cont.scrollHeight;
+        }
+
+        async function handleChat(e) {
+            const inp = document.getElementById('ai-input');
+            if(e.key === 'Enter' && inp.value.trim() !== "") {
+                const msg = inp.value; inp.value = ""; inp.disabled = true;
+                chatHistory.push({role: 'user', text: msg});
+                renderAIChat();
+                try {
+                    const res = await fetch(AI_SCRIPT_URL, { 
+                        method: 'POST', 
+                        body: JSON.stringify({ contents: chatHistory.map(m => ({ role: m.role === 'bot' ? 'model' : 'user', parts: [{ text: m.text }] })) }) 
+                    });
+                    const data = await res.json();
+                    if(data.candidates) {
+                        const aiMsg = data.candidates[0].content.parts[0].text;
+                        chatHistory.push({role: 'bot', text: aiMsg});
+                        localStorage.setItem('squadChatHistory', JSON.stringify(chatHistory));
+                        renderAIChat();
+                    }
+                } catch (err) { console.error("AI Error"); }
+                inp.disabled = false; inp.focus();
+            }
+        }
+        window.addEventListener('DOMContentLoaded', renderAIChat);
+        function toggleAI() { const win = document.getElementById('ai-window'); win.style.display = win.style.display === 'flex' ? 'none' : 'flex'; }
+
+        // --- CLOCK & GREETING SYSTEM ---
+        function updateTimeAndGreeting() {
+            const now = new Date();
+            const h = now.getHours();
+            const dc = document.getElementById('digital-clock'), dd = document.getElementById('digital-date'), gr = document.getElementById('greeting');
+            if(dc) dc.innerText = now.toLocaleTimeString('tr-TR');
+            if(dd) dd.innerText = now.toLocaleDateString('tr-TR', { day:'numeric', month:'long', year:'numeric', weekday:'long' });
+            if(gr) {
+                if (h >= 5 && h < 12) gr.innerText = "Günaydın! ☕";
+                else if (h >= 12 && h < 18) gr.innerText = "Mesai Devam Ediyor... 🔥";
+                else if (h >= 18 && h < 22) gr.innerText = "İyi Akşamlar 🌙";
+                else gr.innerText = "Gece Mesaisi Başladı ⚡";
+            }
+        }
+        setInterval(updateTimeAndGreeting, 1000);
+        updateTimeAndGreeting();
+
+        // --- DRIVE DROPBOX ---
         function updateFileLabel(input) { document.getElementById('file-name-display').innerText = input.files[0] ? "Seçildi: " + input.files[0].name : "Dosya seçilmedi."; }
         async function uploadToDrive() {
             const name = document.getElementById('drop-name').value, text = document.getElementById('drop-text').value, fileInput = document.getElementById('drop-file'), btn = document.getElementById('drop-btn');
@@ -268,7 +328,7 @@
                 reader.readAsDataURL(file);
                 reader.onload = async () => {
                     try {
-                        const res = await fetch(APPS_SCRIPT_URL, { method: "POST", body: JSON.stringify({ base64: reader.result.split(',')[1], mimetype: file.type, filename: file.name }) });
+                        const res = await fetch(DRIVE_SCRIPT_URL, { method: "POST", body: JSON.stringify({ base64: reader.result.split(',')[1], mimetype: file.type, filename: file.name }) });
                         const resData = await res.json();
                         if(resData.status === "success") { saveToFirebase(name, text, resData.url, file.name); }
                     } catch (e) { alert("Drive bağlantı hatası!"); resetDropBtn(); }
@@ -277,7 +337,6 @@
         }
         function saveToFirebase(n, t, l, f) { db.ref('squadDrops').push({ sender: n, content: t, fileUrl: l, fileName: f, timestamp: Date.now() }); document.getElementById('drop-text').value = ""; document.getElementById('drop-file').value = ""; document.getElementById('file-name-display').innerText = "Dosya seçilmedi."; resetDropBtn(); alert("Uçuruldu! 🚀"); }
         function resetDropBtn() { document.getElementById('drop-btn').disabled = false; document.getElementById('drop-btn').innerText = "UÇUR (DROP IT) 🚀"; }
-        
         function cleanupAndLoadDrops() {
             const now = Date.now(), oneMonth = 30 * 24 * 60 * 60 * 1000;
             db.ref('squadDrops').on('value', snap => {
@@ -296,7 +355,7 @@
             });
         }
 
-        // --- MAP SYSTEM ---
+        // --- MAP & SYNC ---
         let squadMapHub = L.map('map-container-hub', { zoomControl: false, dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false }).setView([38.7568, 30.5387], 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(squadMapHub);
         let markerHub = L.marker([38.7568, 30.5387]).addTo(squadMapHub);
@@ -305,14 +364,13 @@
         let markerAdmin = L.marker([38.7568, 30.5387]).addTo(squadMapAdmin);
         squadMapAdmin.on('click', e => { document.getElementById('inp-lat').value = e.latlng.lat.toFixed(6); document.getElementById('inp-lng').value = e.latlng.lng.toFixed(6); markerAdmin.setLatLng(e.latlng); });
 
-        // --- ADMIN ACCESS ---
         let isAdminUnlocked = false;
         function tryAdminAccess(e) { if(isAdminUnlocked) { openAdminTab(e); } else { const pw = prompt("Admin Şifresi:"); if(pw === "0303") { isAdminUnlocked = true; document.getElementById('nav-admin').style.color = '#ff4d4d'; openAdminTab(e); } } }
         function openAdminTab(e) { document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); document.getElementById('admin-dashboard').classList.add('active'); if(e && e.currentTarget) e.currentTarget.classList.add('active'); window.scrollTo({top: 0, behavior: 'smooth'}); setTimeout(() => { squadMapAdmin.invalidateSize(); }, 200); cleanupAndLoadDrops(); }
         function logoutAdmin() { isAdminUnlocked = false; document.getElementById('nav-admin').style.color = 'var(--secondary)'; switchTab(null, 'home'); }
 
         // --- FIREBASE SYNC ---
-        db.ref('squadAnnouncement').on('value', s => { if(s.val() && s.val().text) { document.getElementById('ann-text').innerText = s.val().text; document.getElementById('announcement-bar').style.display = 'block'; } else { document.getElementById('announcement-bar').style.display = 'none'; } });
+        db.ref('squadAnnouncement').on('value', s => { if(s.val() && s.val().text) { document.getElementById('ann-text').innerText = s.val().text; document.getElementById('announcement-bar').style.display = 'block'; } else { if(document.getElementById('announcement-bar')) document.getElementById('announcement-bar').style.display = 'none'; } });
         db.ref('squadLocation').on('value', s => { if(s.val()) { const c = [parseFloat(s.val().lat), parseFloat(s.val().lng)]; squadMapHub.setView(c, 15); markerHub.setLatLng(c); squadMapAdmin.setView(c, 15); markerAdmin.setLatLng(c); document.getElementById('inp-lat').value = s.val().lat; document.getElementById('inp-lng').value = s.val().lng; } });
         db.ref('transferHub').on('value', s => { 
             if(s.val()) { 
@@ -330,20 +388,15 @@
         function updateTransferHub() { db.ref('transferHub').set({ fileName: document.getElementById('inp-file-name').value, fileUrl: document.getElementById('inp-file-url').value, imgUrl: document.getElementById('inp-img-url').value, linkTitle: document.getElementById('inp-link-title').value, linkUrl: document.getElementById('inp-link-url').value }); db.ref('squadAnnouncement').set({ text: document.getElementById('inp-announcement').value }); alert("Hub Güncellendi!"); }
         function switchTab(e, id) { document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active')); document.getElementById(id).classList.add('active'); if(e) e.currentTarget.classList.add('active'); else document.querySelector('.nav-item').classList.add('active'); if(id === 'home') setTimeout(() => squadMapHub.invalidateSize(), 200); }
 
-        // --- UTILS (CLOCK, WEATHER, PING, AI) ---
-        setInterval(() => {
-            const now = new Date(); document.getElementById('digital-clock').innerText = now.toLocaleTimeString('tr-TR'); document.getElementById('digital-date').innerText = now.toLocaleDateString('tr-TR', { day:'numeric', month:'long', year:'numeric', weekday:'long' });
-            const h = now.getHours(); document.getElementById('greeting').innerText = (h >= 5 && h < 12) ? "Günaydın! ☕" : (h >= 12 && h < 18) ? "Mesai Devam Ediyor... 🔥" : (h >= 18 && h < 22) ? "İyi Akşamlar 🌙" : "Gece Mesaisi Başladı ⚡";
-        }, 1000);
-
+        // --- NETWORK & WEATHER ---
         async function getWeatherData() {
             try {
                 const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=38.7568&longitude=30.5387&current_weather=true');
                 const d = await res.json(); const t = Math.round(d.current_weather.temperature);
                 document.getElementById('weather-temp').innerText = `Afyon: ${t}°C`;
                 const ad = document.getElementById('weather-advice');
-                if(ad) ad.innerText = t < 10 ? "Afyon ayazı var, sıkı giyin! 🧥" : "Hava fena değil, tadını çıkar! 🌤️";
-            } catch (e) { if(document.getElementById('weather-advice')) document.getElementById('weather-advice').innerText = "Hava verisi alınamadı."; }
+                if(ad) ad.innerText = t < 10 ? "Hava soğuk, sıkı giyin! 🧥" : "Hava fena değil, tadını çıkar! 🌤️";
+            } catch (e) { }
         }
         getWeatherData();
 
@@ -358,31 +411,10 @@
         function toggleSpeedtest() { document.getElementById('speed-frame').src = "https://openspeedtest.com/Get-widget.php"; document.getElementById('speedtest-area').style.display = 'block'; document.getElementById('st-launcher').style.display = 'none'; }
         function closeSpeedtest() { document.getElementById('speedtest-area').style.display = 'none'; document.getElementById('st-launcher').style.display = 'flex'; }
 
-        // AI Chat
-        let chatHistory = JSON.parse(localStorage.getItem('squadChatHistory')) || [];
-        function toggleAI() { const win = document.getElementById('ai-window'); win.style.display = win.style.display === 'flex' ? 'none' : 'flex'; }
-        async function handleChat(e) {
-            const inp = document.getElementById('ai-input');
-            if(e.key === 'Enter' && inp.value.trim() !== "") {
-                const msg = inp.value; inp.disabled = true; const cont = document.getElementById('ai-messages');
-                cont.innerHTML += `<div class="msg user-msg" style="background:var(--primary); align-self:flex-end; padding:8px; border-radius:10px;">${msg}</div>`;
-                chatHistory.push({role: 'user', text: msg});
-                const res = await fetch("https://script.google.com/macros/s/AKfycbxaYaD_hj09QxusMEcqPplGYUAMrmIl54VQe2weBKpt_3YEqA1Bom9CRWklE2HjUjtm/exec", { method: 'POST', body: JSON.stringify({ contents: chatHistory.map(m => ({ role: m.role === 'bot' ? 'model' : 'user', parts: [{ text: m.text }] })) }) });
-                const data = await res.json();
-                if(data.candidates) {
-                    const aiMsg = data.candidates[0].content.parts[0].text;
-                    cont.innerHTML += `<div class="msg bot-msg" style="background:#222; align-self:flex-start; padding:8px; border-radius:10px; border:1px solid #333;">${aiMsg}</div>`;
-                    chatHistory.push({role: 'bot', text: aiMsg}); localStorage.setItem('squadChatHistory', JSON.stringify(chatHistory));
-                }
-                inp.disabled = false; inp.value = ""; cont.scrollTop = cont.scrollHeight;
-            }
-        }
-
         const listRef = db.ref('squadOnlineUsers'), connectedRef = db.ref('.info/connected');
         connectedRef.on('value', s => { if(s.val()) { const c = listRef.push(); c.onDisconnect().remove(); c.set(true); } });
         listRef.on('value', s => { if(document.getElementById('online-count')) document.getElementById('online-count').innerText = s.numChildren(); });
 
-        // Particles
         const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         let pArray = [];
