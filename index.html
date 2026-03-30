@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hazım | Website 3.0</title>
     
-    <link rel="icon" type="image/png" href="logo0.png">
-    <link rel="apple-touch-icon" href="logo0.png">
+    <!-- --- SEKME SİMGESİ (FAVICON) AYARLARI --- -->
+    <link rel="icon" type="image/png" href="image.png">
+    <link rel="apple-touch-icon" href="image.png">
+    <!-- --------------------------------------- -->
 
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
@@ -51,6 +53,7 @@
         .avatar-img { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; box-shadow: 0 0 25px rgba(0, 123, 255, 0.4); }
         h1 { font-size: 22px; font-weight: 800; margin: 0; }
         .badge { color: var(--primary); font-size: 14px; font-weight: 600; margin-top: 5px; display: block; }
+        .section-title { font-size: 11px; text-transform: uppercase; color: var(--secondary); letter-spacing: 1.5px; margin: 25px 0 10px 5px; font-weight: 800; }
         
         .clock-container { text-align: center; margin: 15px 0; background: var(--card-bg); padding: 20px; border-radius: 20px; border: 1px solid rgba(0, 123, 255, 0.2); }
         #digital-clock { font-size: 42px; font-weight: 800; color: var(--primary); letter-spacing: -1px; }
@@ -61,12 +64,10 @@
         .icon-box { font-size: 20px; margin-right: 15px; }
         .link-text b { display: block; font-size: 15px; }
         .link-text span { font-size: 12px; color: var(--secondary); }
-        .section-title { font-size: 11px; text-transform: uppercase; color: var(--secondary); letter-spacing: 1.5px; margin: 25px 0 10px 5px; font-weight: 800; }
 
-        /* Devre Dışı Link Stili */
         .link-disabled { opacity: 0.5; pointer-events: none; cursor: not-allowed; }
 
-        /* --- ADMIN PANEL MODAL --- */
+        /* --- ADMIN PANEL --- */
         #admin-panel { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #111; padding: 25px; border-radius: 25px; border: 2px solid var(--primary); z-index: 2000; width: 85%; max-width: 350px; box-shadow: 0 0 50px rgba(0,0,0,0.9); }
         .admin-input { width: 100%; padding: 12px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #333; background: #000; color: white; box-sizing: border-box; }
         .admin-btn { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; }
@@ -86,19 +87,20 @@
 
     <div class="wrapper">
         
-        <!-- HUB SEKME -->
+        <!-- HUB TAB -->
         <div id="home" class="tab-content active">
             <div class="home-container">
                 <aside class="side-dock">
-                    <a href="https://github.com/TRlKeSeR03" target="_blank" class="dock-item" title="GitHub"><img src="logo1.png"></a>
-                    <a href="https://www.youtube.com/@TRIKeSeR" target="_blank" class="dock-item" title="YouTube"><img src="logo3.png"></a>
-                    <a href="https://www.instagram.com/n03.hazm/" target="_blank" class="dock-item" title="Instagram"><img src="logo4.png"></a>
-                    <a href="https://t.me/sentinelprime00" target="_blank" class="dock-item" title="Telegram"><img src="logo5.png"></a>
+                    <a href="https://github.com/TRlKeSeR03" target="_blank" class="dock-item"><img src="logo1.png"></a>
+                    <a href="https://www.youtube.com/@TRIKeSeR" target="_blank" class="dock-item"><img src="logo3.png"></a>
+                    <a href="https://web.whatsapp.com" target="_blank" class="dock-item"><img src="logo2.png"></a>
+                    <a href="https://www.instagram.com/n03.hazm/" target="_blank" class="dock-item"><img src="logo4.png"></a>
+                    <a href="https://t.me/sentinelprime00" target="_blank" class="dock-item"><img src="logo5.png"></a>
                 </aside>
 
                 <div class="main-col">
                     <div class="profile">
-                        <img src="image.png" alt="Logo" class="avatar-img">
+                        <img src="logo.png" alt="Logo" class="avatar-img">
                         <h1>SquadWeb 3.0</h1>
                         <span id="greeting" class="badge">Sistem Yükleniyor...</span>
                     </div>
@@ -133,19 +135,18 @@
             <div id="admin-auth-trigger" style="text-align:center; margin-top:30px; opacity:0.1; cursor:pointer;" onclick="showAdmin()">Yönetici Girişi</div>
         </div>
 
-        <!-- SOSYAL SEKME (Lazy Load Discord) -->
+        <!-- SOCIAL TAB -->
         <div id="social" class="tab-content">
             <div class="section-title">Grup Odası</div>
-            <a href="https://meet.google.com/zsf-jask-syr" class="link-card" target="_blank"><div class="icon-box">📹</div><div class="link-text"><b>Google Meet</b><span>Grup ile görüntülü görüşme</span></div></a>
+            <a href="https://meet.google.com/zsf-jask-syr" class="link-card" target="_blank"><div class="icon-box">📹</div><div class="link-text"><b>Google Meet</b><span>Görüntülü Görüşme</span></div></a>
             <div class="section-title">Discord & Mesaj Kutusu</div>
             <div class="box-container" style="background: #000;">
-                <!-- data-src kullanıldı, switchTab ile yüklenecek -->
                 <iframe id="discord-widget" data-src="https://discord.com/widget?id=1488170303787106557&theme=dark" width="100%" height="300" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
             </div>
             <div class="box-container"><iframe src="https://www5.cbox.ws/box/?boxid=962200&boxtag=eafgRP" width="100%" height="350" frameborder="0" scrolling="auto"></iframe></div>
         </div>
 
-        <!-- SİSTEM SEKME -->
+        <!-- SYSTEM TAB -->
         <div id="hardware" class="tab-content">
             <div class="section-title">Donanım</div>
             <div class="link-card" style="border-left: 4px solid var(--tech-green);"><div class="icon-box">💻</div><div class="link-text"><b>Monster Abra A7</b><span>i7-13700HX | RTX 5050 | 48GB DDR5</span></div></div>
@@ -184,7 +185,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
 
-        // Firebase Veri Dinleme
         db.ref('transferHub').on('value', (snap) => {
             const data = snap.val();
             if(data) {
@@ -228,7 +228,6 @@
             }
         });
 
-        // --- SEKME KONTROLÜ & LAZY LOAD ---
         function switchTab(e, id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -236,12 +235,9 @@
             e.currentTarget.classList.add('active');
             window.scrollTo({top: 0, behavior: 'smooth'});
 
-            // PERFORMANS: Discord'u sadece tıklandığında yükle
             if(id === 'social') {
                 const discord = document.getElementById('discord-widget');
-                if(discord && !discord.src) {
-                    discord.src = discord.getAttribute('data-src');
-                }
+                if(discord && !discord.src) discord.src = discord.getAttribute('data-src');
             }
         }
 
@@ -263,15 +259,7 @@
         function toggleSpeedtest() { document.getElementById('speed-frame').src = "https://openspeedtest.com/Get-widget.php"; document.getElementById('speedtest-area').style.display = 'block'; document.getElementById('st-launcher').style.display = 'none'; }
         function closeSpeedtest() { document.getElementById('speedtest-area').style.display = 'none'; document.getElementById('st-launcher').style.display = 'flex'; document.getElementById('speed-frame').src = ""; }
         setInterval(() => { const p = document.getElementById('ping-val'); if(p) p.innerText = Math.floor(Math.random() * 6) + 18; }, 3000);
-        
-        async function getWeatherData() { 
-            try { 
-                const res = await fetch('https://wttr.in/Afyonkarahisar?format=j1'); 
-                const data = await res.json(); 
-                const temp = data.current_condition[0].temp_C; 
-                document.getElementById('weather-temp').innerText = `Afyon: ${temp}°C`; 
-            } catch (e) {} 
-        }
+        async function getWeatherData() { try { const res = await fetch('https://wttr.in/Afyonkarahisar?format=j1'); const data = await res.json(); const temp = data.current_condition[0].temp_C; document.getElementById('weather-temp').innerText = `Afyon: ${temp}°C`; } catch (e) {} }
         getWeatherData();
 
         const canvas = document.getElementById('bg-canvas'); const ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = innerHeight; let pArray = []; class Particle { constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.dx = Math.random()*0.4-0.2; this.dy = Math.random()*0.4-0.2; this.s = Math.random()*6+2; } draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.s, 0, Math.PI*2); ctx.fillStyle = 'rgba(0,123,255,0.3)'; ctx.fill(); } update() { if(this.x > canvas.width || this.x < 0) this.dx = -this.dx; if(this.y > canvas.height || this.y < 0) this.dy = -this.dy; this.x += this.dx; this.y += this.dy; this.draw(); } }
