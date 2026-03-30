@@ -27,6 +27,7 @@
         #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
         .wrapper { width: 100%; max-width: 480px; padding: 20px; z-index: 1; position: relative; }
 
+        /* Navigation & Tabs */
         .home-container { display: flex; gap: 15px; align-items: center; min-height: 400px; }
         .side-dock { display: flex; flex-direction: column; gap: 12px; background: rgba(15, 15, 15, 0.6); backdrop-filter: blur(10px); padding: 10px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); position: sticky; top: 50%; }
         .dock-item { width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); border-radius: 10px; text-decoration: none; transition: 0.3s; overflow: hidden; }
@@ -47,6 +48,7 @@
         .tab-content.active { display: flex; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* Elements */
         .main-col { flex: 1; width: 100%; }
         .profile { text-align: center; margin-bottom: 10px; }
         .avatar-img { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 10px; box-shadow: 0 0 25px rgba(0, 123, 255, 0.4); }
@@ -63,9 +65,21 @@
         .icon-box { font-size: 20px; margin-right: 15px; }
         .link-text b { display: block; font-size: 15px; }
         .link-text span { font-size: 12px; color: var(--secondary); }
-
         .link-disabled { opacity: 0.5; pointer-events: none; cursor: not-allowed; }
 
+        /* DROP ZONE UI */
+        .drop-zone { background: rgba(0, 123, 255, 0.05); border: 2px dashed var(--primary); border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 20px; }
+        .drop-input { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid #333; color: white; padding: 12px; border-radius: 12px; margin-bottom: 10px; box-sizing: border-box; font-size: 13px; }
+        .drop-btn { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+
+        /* ADMIN INBOX UI */
+        .drop-item { background: #111; border: 1px solid #333; padding: 12px; border-radius: 12px; margin-bottom: 10px; }
+        .drop-header { display: flex; justify-content: space-between; margin-bottom: 5px; font-size: 11px; color: var(--tech-green); font-weight: 800; }
+        .drop-body { color: #eee; word-break: break-all; margin-bottom: 8px; display: block; font-size: 13px; }
+        .drop-actions { display: flex; gap: 8px; }
+        .drop-actions button { background: #222; border: 1px solid #444; color: white; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 11px; }
+
+        /* AI Widget */
         #ai-widget { position: fixed; bottom: 100px; right: 20px; z-index: 2000; }
         .ai-btn { width: 55px; height: 55px; border-radius: 50%; background: var(--bg); border: 2px solid var(--primary); color: white; font-size: 24px; cursor: pointer; box-shadow: 0 0 15px var(--primary); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
         #ai-window { display: none; position: absolute; bottom: 70px; right: 0; width: 300px; height: 400px; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px); border: 1px solid var(--primary); border-radius: 20px; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -77,11 +91,11 @@
         .ai-input-area { display: flex; padding: 10px; background: #000; border-top: 1px solid #222; }
         #ai-input { flex: 1; background: transparent; border: none; color: white; outline: none; font-size: 13px; width: 100%; }
 
-        /* --- İKİ FARKLI HARİTA İÇİN STİLLER --- */
+        /* Harita Konteynerleri */
         #map-container-hub { width: 100%; height: 220px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); margin-top: 10px; z-index: 10; filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(85%); }
-        #map-container-root { width: 100%; height: 220px; border-radius: 12px; border: 1px solid #ff4d4d; margin-top: 10px; margin-bottom: 15px; z-index: 10; filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(85%); }
+        #map-container-admin { width: 100%; height: 220px; border-radius: 12px; border: 1px solid #ff4d4d; margin-top: 10px; margin-bottom: 15px; z-index: 10; filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(85%); }
 
-        /* --- ROOT SAYFASI STYLES --- */
+        /* Admin Paneli Styles */
         .admin-card { background: rgba(15, 15, 15, 0.6); backdrop-filter: blur(10px); border: 1px solid #ff4d4d; border-radius: 18px; padding: 20px; margin-bottom: 20px; }
         .admin-input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #333; background: #050505; color: white; box-sizing: border-box; font-size: 13px; transition: 0.3s; }
         .admin-input:focus { border-color: #ff4d4d; outline: none; }
@@ -113,8 +127,7 @@
         <button class="nav-item active" onclick="switchTab(event, 'home')"><span>🏠</span>Hub</button>
         <button class="nav-item" onclick="switchTab(event, 'social')"><span>💬</span>Sosyal</button>
         <button class="nav-item" onclick="switchTab(event, 'hardware')"><span>⚙️</span>Sistem</button>
-        <!-- Root sekmesi butonu -->
-        <button class="nav-item" onclick="tryRootAccess(event)" id="nav-root"><span>🔑</span>Root</button>
+        <button class="nav-item" onclick="tryAdminAccess(event)" id="nav-admin"><span>🔑</span>Admin</button>
     </nav>
 
     <div class="wrapper">
@@ -138,10 +151,17 @@
                         <img src="logo.png" alt="Logo" class="avatar-img">
                         <h1>SquadWeb 3.0</h1>
                         <span id="greeting" class="badge">Sistem Yükleniyor...</span>
-                        <!-- YENİ EKLENEN CANLI SAYAÇ -->
                         <span style="color: var(--tech-green); font-size: 12px; margin-top: 8px; display: block; font-weight: 600;">
                             🟢 Canlı Ağda: <span id="online-count">0</span> Kişi
                         </span>
+                    </div>
+
+                    <!-- DROP ZONE -->
+                    <div class="section-title">Anonymous Drop Zone (24h)</div>
+                    <div class="drop-zone">
+                        <input type="text" id="drop-name" class="drop-input" placeholder="İsminiz / Rumuzunuz">
+                        <input type="text" id="drop-text" class="drop-input" placeholder="Link veya Not bırakın...">
+                        <button class="drop-btn" onclick="sendDrop()">DROP ET 🚀</button>
                     </div>
 
                     <div class="clock-container">
@@ -165,11 +185,6 @@
                         <div class="link-text"><b id="fb-link-title">Bağlantı Yok</b><span id="fb-link-desc">Güncelleme bekleniyor</span></div>
                     </a>
 
-                    <div class="section-title">Hızlı Erişim</div>
-                    <a href="https://meet.google.com/zsf-jask-syr" class="link-card" style="border-left: 4px solid var(--meet-red);" target="_blank">
-                        <div class="icon-box">📹</div><div class="link-text"><b>Hızlı Meet</b><span>Grup toplantı odası</span></div>
-                    </a>
-
                     <div class="section-title">Hava Durumu</div>
                     <div class="link-card" style="border-left: 4px solid var(--weather-blue); cursor: default; margin-bottom: 5px;">
                         <div class="icon-box">🌤️</div>
@@ -179,22 +194,21 @@
                         </div>
                     </div>
 
-                    <!-- HUB HARİTASI (SADECE İZLEME - KİLİTLİ) -->
                     <div class="section-title">Toplanma Noktası</div>
                     <div id="map-container-hub"></div>
                 </div>
             </div>
         </div>
 
-        <!-- SOSYAL SEKME -->
+        <!-- SOSYAL SEKME (DİSCORD DAHİL) -->
         <div id="social" class="tab-content">
             <div class="section-title">Grup Odası</div>
             <a href="https://meet.google.com/zsf-jask-syr" class="link-card" target="_blank"><div class="icon-box">📹</div><div class="link-text"><b>Google Meet</b><span>Görüntülü Görüşme</span></div></a>
             <div class="section-title">Discord & Mesaj Kutusu</div>
-            <div class="box-container" style="background: #000;">
-                <iframe id="discord-widget" data-src="https://discord.com/widget?id=1488170303787106557&theme=dark" width="100%" height="300" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            <div class="box-container" style="background: #000; border-radius: 18px; overflow: hidden;">
+                <iframe id="discord-widget" src="https://discord.com/widget?id=1488170303787106557&theme=dark" width="100%" height="300" allowtransparency="true" frameborder="0"></iframe>
             </div>
-            <div class="box-container"><iframe src="https://www5.cbox.ws/box/?boxid=962200&boxtag=eafgRP" width="100%" height="350" frameborder="0" scrolling="auto"></iframe></div>
+            <div class="box-container" style="margin-top:15px;"><iframe src="https://www5.cbox.ws/box/?boxid=962200&boxtag=eafgRP" width="100%" height="350" frameborder="0" scrolling="auto"></iframe></div>
         </div>
 
         <!-- SİSTEM SEKME -->
@@ -208,32 +222,32 @@
             <div id="speedtest-area" style="display:none;"><div class="box-container" style="padding: 0; background: #000;"><iframe id="speed-frame" src="" style="width:100%; height:500px; border:none; filter:invert(1) brightness(0.9);"></iframe></div><button class="admin-btn" onclick="closeSpeedtest()" style="background:var(--meet-red); margin-top:10px;">Hız Testini Kapat</button></div>
         </div>
 
-        <!-- YENİ ROOT (ADMIN) SEKME -->
-        <div id="root-dashboard" class="tab-content">
+        <!-- ADMIN PANELİ SEKME -->
+        <div id="admin-dashboard" class="tab-content">
             <div class="profile">
-                <h1 style="color: #ff4d4d; font-size: 26px;">Root Access</h1>
+                <h1 style="color: #ff4d4d; font-size: 26px;">Admin Paneli</h1>
                 <span class="badge" style="color: #ff9999;">Sistem Kontrol Paneli Aktif</span>
+            </div>
+
+            <!-- ADMIN: DROP INBOX -->
+            <div class="section-title">📥 Gelen Drop'lar (Son 24 Saat)</div>
+            <div class="admin-card" id="admin-drop-list">
+                <p style="color: #999; font-size: 12px; text-align: center;">Kutu temizleniyor...</p>
             </div>
 
             <div class="section-title">Harita Kontrolü (Tıkla & Seç)</div>
             <div class="admin-card">
-                <div style="font-size: 11px; color: #999; margin-bottom: 10px;">Aşağıdaki interaktif haritaya tıklayarak yeni toplanma noktasını belirle.</div>
-                
                 <div style="display: flex; gap:10px;">
-                    <input type="text" id="inp-lat" class="admin-input" placeholder="Enlem (Lat)" readonly>
-                    <input type="text" id="inp-lng" class="admin-input" placeholder="Boylam (Lng)" readonly>
+                    <input type="text" id="inp-lat" class="admin-input" placeholder="Lat" readonly>
+                    <input type="text" id="inp-lng" class="admin-input" placeholder="Lng" readonly>
                 </div>
-                
-                <!-- ROOT HARİTASI (İNTERAKTİF) -->
-                <div id="map-container-root"></div>
-
+                <div id="map-container-admin"></div>
                 <button class="admin-btn" onclick="updateLocation()">LOKASYONU GÜNCELLE</button>
             </div>
 
             <div class="section-title">Hub Transfer & Duyuru</div>
             <div class="admin-card">
-                <input type="text" id="inp-announcement" class="admin-input" placeholder="📢 Canlı Duyuru (Kaldırmak için boş bırak)">
-                <div style="border-top: 1px solid #333; margin: 15px 0;"></div>
+                <input type="text" id="inp-announcement" class="admin-input" placeholder="📢 Canlı Duyuru">
                 <input type="text" id="inp-file-name" class="admin-input" placeholder="📂 Dosya Adı">
                 <input type="text" id="inp-file-url" class="admin-input" placeholder="🔗 Dosya İndirme Linki">
                 <input type="text" id="inp-img-url" class="admin-input" placeholder="🖼️ Görsel Linki">
@@ -242,7 +256,7 @@
                 <button class="admin-btn" onclick="updateTransferHub()">HUB'I GÜNCELLE</button>
             </div>
 
-            <button class="admin-btn" style="background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d;" onclick="logoutRoot()">🚪 OTURUMU KAPAT</button>
+            <button class="admin-btn" style="background: transparent; border: 1px solid #ff4d4d; color: #ff4d4d;" onclick="logoutAdmin()">🚪 OTURUMU KAPAT</button>
         </div>
 
         <footer>Squad Base 3.0 | Powered by Hazım</footer>
@@ -260,356 +274,213 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
-
         const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxaYaD_hj09QxusMEcqPplGYUAMrmIl54VQe2weBKpt_3YEqA1Bom9CRWklE2HjUjtm/exec";
 
-        // --- 1. HUB HARİTASI BAŞLATMA (TAMAMEN KİLİTLİ) ---
-        let squadMapHub = L.map('map-container-hub', {
-            zoomControl: false,
-            dragging: false,
-            touchZoom: false,
-            scrollWheelZoom: false,
-            doubleClickZoom: false,
-            boxZoom: false,
-            keyboard: false
-        }).setView([38.7568, 30.5387], 15);
+        // --- MAP SYSTEM ---
+        let squadMapHub = L.map('map-container-hub', { zoomControl: false, dragging: false, touchZoom: false, scrollWheelZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false }).setView([38.7568, 30.5387], 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(squadMapHub);
         let squadMarkerHub = L.marker([38.7568, 30.5387]).addTo(squadMapHub);
-        squadMarkerHub.bindPopup("<b>Squad Base</b><br>Toplanma Noktası").openPopup();
 
-        // --- 2. ROOT HARİTASI BAŞLATMA (İNTERAKTİF) ---
-        let squadMapRoot = L.map('map-container-root').setView([38.7568, 30.5387], 15);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(squadMapRoot);
-        let squadMarkerRoot = L.marker([38.7568, 30.5387]).addTo(squadMapRoot);
-        squadMarkerRoot.bindPopup("<b>Mevcut Konum</b>").openPopup();
+        let squadMapAdmin = L.map('map-container-admin').setView([38.7568, 30.5387], 15);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(squadMapAdmin);
+        let squadMarkerAdmin = L.marker([38.7568, 30.5387]).addTo(squadMapAdmin);
 
-        // Root Haritasına tıklanınca çalışır
-        squadMapRoot.on('click', function(e) {
-            const lat = e.latlng.lat.toFixed(6);
-            const lng = e.latlng.lng.toFixed(6);
+        squadMapAdmin.on('click', (e) => {
+            const lat = e.latlng.lat.toFixed(6), lng = e.latlng.lng.toFixed(6);
             document.getElementById('inp-lat').value = lat;
             document.getElementById('inp-lng').value = lng;
-            squadMarkerRoot.setLatLng(e.latlng).bindPopup(`<b>Seçilen Konum:</b><br>${lat}, ${lng}`).openPopup();
+            squadMarkerAdmin.setLatLng(e.latlng);
         });
 
-        // Sayfa ilk yüklendiğinde haritaları oturt
-        setTimeout(() => { squadMapHub.invalidateSize(); squadMapRoot.invalidateSize(); }, 500);
+        // --- DROP ZONE & AUTO-CLEANUP LOGIC ---
+        function sendDrop() {
+            const name = document.getElementById('drop-name').value;
+            const text = document.getElementById('drop-text').value;
+            if(name.trim() === "" || text.trim() === "") return alert("İsim ve veri alanları boş bırakılamaz.");
 
-        // --- ROOT ACCESS MANTIĞI ---
-        let isRootUnlocked = false;
-
-        function tryRootAccess(e) {
-            if(isRootUnlocked) {
-                openRootTab(e);
-            } else {
-                const pw = prompt("Root Şifresini Girin:");
-                if(pw === "0303") {
-                    isRootUnlocked = true;
-                    document.getElementById('nav-root').style.color = '#ff4d4d'; 
-                    openRootTab(e);
-                } else if(pw !== null) {
-                    alert("❌ Erişim Reddedildi.");
-                }
-            }
+            db.ref('squadDrops').push({
+                sender: name,
+                content: text,
+                timestamp: Date.now()
+            });
+            document.getElementById('drop-text').value = "";
+            alert("Uçuruldu! Hazım'ın Monster'ına düştü.");
         }
 
-        function openRootTab(e) {
+        function cleanupAndLoadDrops() {
+            const now = Date.now();
+            const oneDay = 24 * 60 * 60 * 1000;
+            const adminList = document.getElementById('admin-drop-list');
+
+            db.ref('squadDrops').on('value', snap => {
+                adminList.innerHTML = "";
+                const data = snap.val();
+                if(data) {
+                    let hasCurrent = false;
+                    Object.keys(data).reverse().forEach(key => {
+                        const item = data[key];
+                        if (now - item.timestamp > oneDay) {
+                            db.ref('squadDrops/' + key).remove();
+                        } else {
+                            hasCurrent = true;
+                            const timeStr = new Date(item.timestamp).toLocaleTimeString('tr-TR', {hour: '2-digit', minute:'2-digit'});
+                            adminList.innerHTML += `
+                                <div class="drop-item">
+                                    <div class="drop-header"><span>👤 ${item.sender}</span> <span>🕒 ${timeStr}</span></div>
+                                    <span class="drop-body">${item.content}</span>
+                                    <div class="drop-actions">
+                                        <button onclick="copyDrop('${item.content}')">📋 Kopyala</button>
+                                        <button style="color:var(--meet-red)" onclick="deleteDrop('${key}')">🗑️ Sil</button>
+                                    </div>
+                                </div>`;
+                        }
+                    });
+                    if(!hasCurrent) adminList.innerHTML = "<p style='color:#666; font-size:12px; text-align:center;'>Gelen kutusu boş.</p>";
+                } else {
+                    adminList.innerHTML = "<p style='color:#666; font-size:12px; text-align:center;'>Gelen kutusu boş.</p>";
+                }
+            });
+        }
+
+        function copyDrop(text) { navigator.clipboard.writeText(text); alert("Hafızaya alındı!"); }
+        function deleteDrop(key) { db.ref('squadDrops/' + key).remove(); }
+
+        // --- ADMIN ACCESS ---
+        let isAdminUnlocked = false;
+        function tryAdminAccess(e) {
+            if(isAdminUnlocked) { openAdminTab(e); }
+            else {
+                const pw = prompt("Admin Şifresini Girin:");
+                if(pw === "0303") { isAdminUnlocked = true; document.getElementById('nav-admin').style.color = '#ff4d4d'; openAdminTab(e); }
+            }
+        }
+        function openAdminTab(e) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById('root-dashboard').classList.add('active');
+            document.getElementById('admin-dashboard').classList.add('active');
             if(e && e.currentTarget) e.currentTarget.classList.add('active');
             window.scrollTo({top: 0, behavior: 'smooth'});
-            
-            // Root sekmesine geçince haritayı tekrar renderla (bozulmaması için)
-            setTimeout(() => { squadMapRoot.invalidateSize(); }, 200);
+            setTimeout(() => { squadMapAdmin.invalidateSize(); }, 200);
+            cleanupAndLoadDrops(); // Tarama başlat
         }
+        function logoutAdmin() { isAdminUnlocked = false; document.getElementById('nav-admin').style.color = 'var(--secondary)'; switchTab(null, 'home'); }
 
-        function logoutRoot() {
-            isRootUnlocked = false;
-            document.getElementById('nav-root').style.color = 'var(--secondary)'; 
-            document.getElementById('nav-root').classList.remove('active');
-            
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.getElementById('home').classList.add('active');
-            document.querySelector('.nav-item').classList.add('active'); 
-            
-            alert("🚪 Root Oturumu Kapatıldı.");
-            window.scrollTo({top: 0, behavior: 'smooth'});
-            setTimeout(() => { squadMapHub.invalidateSize(); }, 200);
-        }
+        // --- FIREBASE SYNC ---
+        db.ref('squadAnnouncement').on('value', snap => {
+            const val = snap.val();
+            const bar = document.getElementById('announcement-bar');
+            if(val && val.text) { document.getElementById('ann-text').innerText = val.text; bar.style.display = 'block'; }
+            else bar.style.display = 'none';
+        });
 
-        function updateLocation() {
-            const lat = document.getElementById('inp-lat').value;
-            const lng = document.getElementById('inp-lng').value;
-            if(lat && lng) { 
-                db.ref('squadLocation').set({ lat: lat, lng: lng }); 
-                alert("📍 Harita Lokasyonu Güncellendi!");
-            } else {
-                alert("Önce haritadan bir yer seçmelisin.");
+        db.ref('squadLocation').on('value', snap => {
+            const loc = snap.val();
+            if(loc) {
+                const coords = [parseFloat(loc.lat), parseFloat(loc.lng)];
+                squadMapHub.setView(coords, 15); squadMarkerHub.setLatLng(coords);
+                squadMapAdmin.setView(coords, 15); squadMarkerAdmin.setLatLng(coords);
             }
+        });
+
+        db.ref('transferHub').on('value', snap => {
+            const d = snap.val();
+            if(d) {
+                const fl = document.getElementById('fb-file-link'), il = document.getElementById('fb-img-link'), sl = document.getElementById('fb-special-link');
+                document.getElementById('fb-file-name').innerText = d.fileName || "Paylaşım Yok";
+                fl.href = d.fileUrl || "#"; d.fileUrl ? fl.classList.remove('link-disabled') : fl.classList.add('link-disabled');
+                il.href = d.imgUrl || "#"; d.imgUrl ? il.classList.remove('link-disabled') : il.classList.add('link-disabled');
+                document.getElementById('fb-link-title').innerText = d.linkTitle || "Bağlantı Yok";
+                sl.href = d.linkUrl || "#"; d.linkUrl ? sl.classList.remove('link-disabled') : sl.classList.add('link-disabled');
+            }
+        });
+
+        // --- UTILS ---
+        function switchTab(e, id) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if(e) e.currentTarget.classList.add('active');
+            else document.querySelector('.nav-item').classList.add('active');
+            if(id === 'home') setTimeout(() => squadMapHub.invalidateSize(), 200);
         }
 
+        function updateLocation() { db.ref('squadLocation').set({ lat: document.getElementById('inp-lat').value, lng: document.getElementById('inp-lng').value }); alert("Konum Güncellendi!"); }
         function updateTransferHub() {
-            db.ref('transferHub').set({
-                fileName: document.getElementById('inp-file-name').value,
-                fileUrl: document.getElementById('inp-file-url').value,
-                imgUrl: document.getElementById('inp-img-url').value,
-                linkTitle: document.getElementById('inp-link-title').value,
-                linkUrl: document.getElementById('inp-link-url').value
-            });
+            db.ref('transferHub').set({ fileName: document.getElementById('inp-file-name').value, fileUrl: document.getElementById('inp-file-url').value, imgUrl: document.getElementById('inp-img-url').value, linkTitle: document.getElementById('inp-link-title').value, linkUrl: document.getElementById('inp-link-url').value });
             db.ref('squadAnnouncement').set({ text: document.getElementById('inp-announcement').value });
             alert("🚀 Hub Verileri Güncellendi!");
         }
 
-        function switchTab(e, id) {
-            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            
-            if(id !== 'admin') {
-                document.getElementById(id).classList.add('active');
-                e.currentTarget.classList.add('active');
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            }
-
-            if(id === 'home') { setTimeout(() => { squadMapHub.invalidateSize(); }, 200); }
-            if(id === 'social') {
-                const discord = document.getElementById('discord-widget');
-                if(discord && !discord.src) discord.src = discord.getAttribute('data-src');
-            }
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('digital-clock').innerText = now.toLocaleTimeString('tr-TR');
+            document.getElementById('digital-date').innerText = now.toLocaleDateString('tr-TR', { day:'numeric', month:'long', year:'numeric', weekday:'long' });
+            setGreeting();
         }
-
-        // --- AI WIDGET VE HAFIZA ---
-        function toggleAI() {
-            const win = document.getElementById('ai-window');
-            win.style.display = (win.style.display === 'flex') ? 'none' : 'flex';
-        }
-
-        function loadChatMemory() {
-            const today = new Date().toLocaleDateString('tr-TR');
-            const lastDate = localStorage.getItem('squadChatDate');
-            if (lastDate !== today) {
-                localStorage.removeItem('squadChatHistory'); 
-                localStorage.setItem('squadChatDate', today);
-                return [];
-            }
-            return JSON.parse(localStorage.getItem('squadChatHistory')) || [];
-        }
-
-        let chatHistory = loadChatMemory();
-
-        window.addEventListener('DOMContentLoaded', () => {
-            const msgContainer = document.getElementById('ai-messages');
-            if (chatHistory.length > 0) {
-                msgContainer.innerHTML = ''; 
-                chatHistory.forEach(msg => {
-                    msgContainer.innerHTML += `<div class="msg ${msg.role === 'user' ? 'user-msg' : 'bot-msg'}">${msg.text}</div>`;
-                });
-                msgContainer.scrollTop = msgContainer.scrollHeight;
-            }
-        });
-
-        async function handleChat(e) {
-            const inputField = document.getElementById('ai-input');
-            const userMsg = e.target.value;
-            
-            if(e.key === 'Enter' && userMsg.trim() !== "") {
-                // 1. KORUMA KALKANI: İkinci mesajı engelle (Input'u kilitle)
-                inputField.disabled = true;
-                inputField.placeholder = "Sistem düşünüyor, bekle... ⏳";
-                
-                const msgContainer = document.getElementById('ai-messages');
-                
-                // Mesajı ekrana bas ve KENDİ hafızamıza (chatHistory) ekle
-                msgContainer.innerHTML += `<div class="msg user-msg">${userMsg}</div>`;
-                chatHistory.push({role: 'user', text: userMsg});
-                localStorage.setItem('squadChatHistory', JSON.stringify(chatHistory));
-                
-                inputField.value = "";
-                msgContainer.scrollTop = msgContainer.scrollHeight;
-
-                // Geçmişi Gemini formatına çevir
-                const apiHistory = chatHistory.map(msg => ({
-                    role: msg.role === 'bot' ? 'model' : 'user',
-                    parts: [{ text: msg.text }]
-                }));
-
-                try {
-                    const response = await fetch(APPS_SCRIPT_URL, {
-                        method: 'POST',
-                        body: JSON.stringify({ contents: apiHistory }) 
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.candidates && data.candidates.length > 0) {
-                        const aiMsg = data.candidates[0].content.parts[0].text;
-                        msgContainer.innerHTML += `<div class="msg bot-msg">${aiMsg}</div>`;
-                        
-                        chatHistory.push({role: 'bot', text: aiMsg});
-                        localStorage.setItem('squadChatHistory', JSON.stringify(chatHistory));
-                    } else if (data.error) {
-                        // Gemini'den hata gelirse (kota dolması vb.)
-                        msgContainer.innerHTML += `<div class="msg bot-msg" style="color:#ff4d4d">Sistem Uyarısı: ${data.error.message}</div>`;
-                    } else {
-                        msgContainer.innerHTML += `<div class="msg bot-msg" style="color:#ffb8b8">Bilinmeyen Veri Hatası.</div>`;
-                    }
-                } catch (err) {
-                    msgContainer.innerHTML += `<div class="msg bot-msg" style="color:#ff4d4d">Sunucu ile bağlantı koptu!</div>`;
-                }
-                
-                // 2. KİLİDİ AÇ: İşlem bitince (başarılı veya hatalı) input'u tekrar kullanıma aç
-                inputField.disabled = false;
-                inputField.placeholder = "Bir şeyler sor...";
-                inputField.focus(); // İmleci otomatik kutuya geri getir
-                msgContainer.scrollTop = msgContainer.scrollHeight;
-            }
-        }
-
-        // --- FIREBASE DİNLEYİCİLERİ ---
-        db.ref('squadAnnouncement').on('value', (snap) => {
-            const val = snap.val();
-            const bar = document.getElementById('announcement-bar');
-            if(val && val.text && val.text.trim() !== "") {
-                document.getElementById('ann-text').innerText = val.text;
-                document.getElementById('inp-announcement').value = val.text;
-                bar.style.display = 'block';
-            } else {
-                bar.style.display = 'none';
-                document.getElementById('inp-announcement').value = "";
-            }
-        });
-
-        // Çift Harita Senkronizasyonu
-        db.ref('squadLocation').on('value', (snap) => {
-            const loc = snap.val();
-            if(loc && loc.lat && loc.lng) {
-                const lat = parseFloat(loc.lat);
-                const lng = parseFloat(loc.lng);
-                
-                // Hub'daki haritayı güncelle
-                squadMapHub.setView([lat, lng], 15);
-                squadMarkerHub.setLatLng([lat, lng]);
-                
-                // Root'taki haritayı güncelle
-                squadMapRoot.setView([lat, lng], 15);
-                squadMarkerRoot.setLatLng([lat, lng]);
-                
-                // Kutucukları doldur
-                document.getElementById('inp-lat').value = lat;
-                document.getElementById('inp-lng').value = lng;
-            }
-        });
-
-        db.ref('transferHub').on('value', (snap) => {
-            const data = snap.val();
-            if(data) {
-                const fileLink = document.getElementById('fb-file-link');
-                const imgLink = document.getElementById('fb-img-link');
-                const specLink = document.getElementById('fb-special-link');
-
-                if(data.fileUrl && data.fileUrl.trim() !== "" && data.fileUrl !== "#") {
-                    document.getElementById('fb-file-name').innerText = data.fileName || "Dosya";
-                    document.getElementById('fb-file-desc').innerText = "İndir";
-                    fileLink.href = data.fileUrl; fileLink.classList.remove('link-disabled');
-                } else {
-                    document.getElementById('fb-file-name').innerText = "Paylaşım Yok";
-                    document.getElementById('fb-file-desc').innerText = "Bekleniyor...";
-                    fileLink.href = "javascript:void(0)"; fileLink.classList.add('link-disabled');
-                }
-
-                if(data.imgUrl && data.imgUrl.trim() !== "" && data.imgUrl !== "#") {
-                    document.getElementById('fb-img-name').innerText = "Son Görsel";
-                    imgLink.href = data.imgUrl; imgLink.classList.remove('link-disabled');
-                } else {
-                    document.getElementById('fb-img-name').innerText = "Görsel Yok";
-                    imgLink.href = "javascript:void(0)"; imgLink.classList.add('link-disabled');
-                }
-
-                if(data.linkUrl && data.linkUrl.trim() !== "" && data.linkUrl !== "#") {
-                    document.getElementById('fb-link-title').innerText = data.linkTitle || "Bağlantı";
-                    document.getElementById('fb-link-desc').innerText = "Gitmek için tıkla";
-                    specLink.href = data.linkUrl; specLink.classList.remove('link-disabled');
-                } else {
-                    document.getElementById('fb-link-title').innerText = "Bağlantı Yok";
-                    document.getElementById('fb-link-desc').innerText = "Güncelleme bekleniyor";
-                    specLink.href = "javascript:void(0)"; specLink.classList.add('link-disabled');
-                }
-                
-                document.getElementById('inp-file-name').value = data.fileName || "";
-                document.getElementById('inp-file-url').value = data.fileUrl || "";
-                document.getElementById('inp-img-url').value = data.imgUrl || "";
-                document.getElementById('inp-link-title').value = data.linkTitle || "";
-                document.getElementById('inp-link-url').value = data.linkUrl || "";
-            }
-        });
-
-        // --- STANDART FONKSİYONLAR ---
         function setGreeting() { const h = new Date().getHours(); const el = document.getElementById('greeting'); el.innerText = (h >= 5 && h < 12) ? "Günaydın! ☕" : (h >= 12 && h < 18) ? "Mesai Devam Ediyor... 🔥" : (h >= 18 && h < 22) ? "İyi Akşamlar 🌙" : "Gece Mesaisi Başladı ⚡"; }
-        function updateClock() { const now = new Date(); document.getElementById('digital-clock').innerText = now.toLocaleTimeString('tr-TR', { hour12: false }); document.getElementById('digital-date').innerText = now.toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', weekday: 'long' }); setGreeting(); }
         setInterval(updateClock, 1000); updateClock();
 
-        function toggleSpeedtest() { document.getElementById('speed-frame').src = "https://openspeedtest.com/Get-widget.php"; document.getElementById('speedtest-area').style.display = 'block'; document.getElementById('st-launcher').style.display = 'none'; }
-        function closeSpeedtest() { document.getElementById('speedtest-area').style.display = 'none'; document.getElementById('st-launcher').style.display = 'flex'; document.getElementById('speed-frame').src = ""; }
-        
-        async function updatePing() {
-            const start = performance.now();
+        async function getWeatherData() {
             try {
-                await fetch(window.location.href, { method: 'HEAD', cache: 'no-cache' });
-                const end = performance.now();
-                const ping = Math.round(end - start);
-                const p = document.getElementById('ping-val');
-                if(p) p.innerText = ping;
-            } catch (e) {
-                const p = document.getElementById('ping-val');
-                if(p) p.innerText = "??";
-            }
-        }
-        setInterval(updatePing, 5000); 
-        updatePing();
-        
-        // --- STABİL HAVA DURUMU RADARI (Open-Meteo API) ---
-        async function getWeatherData() { 
-            try { 
-                // Direkt Afyon Kocatepe Üniversitesi koordinatlarından hava durumunu çeker
-                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=38.7568&longitude=30.5387&current_weather=true'); 
-                const data = await res.json(); 
-                const temp = Math.round(data.current_weather.temperature); 
-                
-                document.getElementById('weather-temp').innerText = `Afyon: ${temp}°C`; 
-                const adviceEl = document.getElementById('weather-advice');
-                
-                if(temp <= 0) adviceEl.innerText = "Hava dondurucu, Monster'ın başında kal! ❄️";
-                else if(temp < 10) adviceEl.innerText = "Afyon ayazı var, sıkı giyin çıkacaksan. 🧥";
-                else adviceEl.innerText = "Hava fena değil, tadını çıkar! 🌤️";
-            } catch (e) {
-                document.getElementById('weather-temp').innerText = "Afyon: --°C";
-                document.getElementById('weather-advice').innerText = "Radar bağlantısı koptu.";
-                console.error("Hava durumu çekilemedi:", e);
-            } 
+                const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=38.7568&longitude=30.5387&current_weather=true');
+                const data = await res.json();
+                const temp = Math.round(data.current_weather.temperature);
+                document.getElementById('weather-temp').innerText = `Afyon: ${temp}°C`;
+                document.getElementById('weather-advice').innerText = temp < 10 ? "Afyon ayazı var, sıkı giyin! 🧥" : "Hava fena değil, tadını çıkar! 🌤️";
+            } catch (e) { }
         }
         getWeatherData();
 
-        // --- CANLI AKTİF KULLANICI RADARI ---
-        const listRef = db.ref('squadOnlineUsers');
-        const connectedRef = db.ref('.info/connected');
-
-        connectedRef.on('value', (snap) => {
-            if (snap.val() === true) {
-                const con = listRef.push();
-                con.onDisconnect().remove();
-                con.set(true);
+        // --- AI MODULE ---
+        let chatHistory = JSON.parse(localStorage.getItem('squadChatHistory')) || [];
+        function toggleAI() { const win = document.getElementById('ai-window'); win.style.display = win.style.display === 'flex' ? 'none' : 'flex'; }
+        async function handleChat(e) {
+            const inp = document.getElementById('ai-input');
+            if(e.key === 'Enter' && inp.value.trim() !== "") {
+                const msg = inp.value; inp.disabled = true;
+                const container = document.getElementById('ai-messages');
+                container.innerHTML += `<div class="msg user-msg">${msg}</div>`;
+                chatHistory.push({role: 'user', text: msg});
+                const response = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify({ contents: chatHistory.map(m => ({ role: m.role === 'bot' ? 'model' : 'user', parts: [{ text: m.text }] })) }) });
+                const data = await response.json();
+                if(data.candidates) {
+                    const aiMsg = data.candidates[0].content.parts[0].text;
+                    container.innerHTML += `<div class="msg bot-msg">${aiMsg}</div>`;
+                    chatHistory.push({role: 'bot', text: aiMsg});
+                    localStorage.setItem('squadChatHistory', JSON.stringify(chatHistory));
+                }
+                inp.disabled = false; inp.value = ""; container.scrollTop = container.scrollHeight;
             }
-        });
+        }
 
-        listRef.on('value', (snap) => {
-            const count = snap.numChildren();
-            const countEl = document.getElementById('online-count');
-            if(countEl) countEl.innerText = count;
-        });
+        // Online Presence
+        const listRef = db.ref('squadOnlineUsers'), connectedRef = db.ref('.info/connected');
+        connectedRef.on('value', s => { if(s.val()) { const c = listRef.push(); c.onDisconnect().remove(); c.set(true); } });
+        listRef.on('value', s => { if(document.getElementById('online-count')) document.getElementById('online-count').innerText = s.numChildren(); });
 
-        const canvas = document.getElementById('bg-canvas'); const ctx = canvas.getContext('2d'); canvas.width = window.innerWidth; canvas.height = innerHeight; let pArray = []; class Particle { constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.dx = Math.random()*0.4-0.2; this.dy = Math.random()*0.4-0.2; this.s = Math.random()*6+2; } draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.s, 0, Math.PI*2); ctx.fillStyle = 'rgba(0,123,255,0.3)'; ctx.fill(); } update() { if(this.x > canvas.width || this.x < 0) this.dx = -this.dx; if(this.y > canvas.height || this.y < 0) this.dy = -this.dy; this.x += this.dx; this.y += this.dy; this.draw(); } }
-        function init() { for(let i=0; i<35; i++) pArray.push(new Particle()); } function animate() { ctx.fillStyle = 'rgba(5,5,5,0.1)'; ctx.fillRect(0,0,canvas.width,canvas.height); pArray.forEach(p => p.update()); requestAnimationFrame(animate); } init(); animate();
-        window.addEventListener('resize', () => { canvas.width = innerWidth; canvas.height = innerHeight; });
+        // Speedtest & Ping
+        function toggleSpeedtest() { document.getElementById('speed-frame').src = "https://openspeedtest.com/Get-widget.php"; document.getElementById('speedtest-area').style.display = 'block'; document.getElementById('st-launcher').style.display = 'none'; }
+        function closeSpeedtest() { document.getElementById('speedtest-area').style.display = 'none'; document.getElementById('st-launcher').style.display = 'flex'; }
+        async function updatePing() {
+            const start = performance.now();
+            try { await fetch(window.location.href, { method: 'HEAD', cache: 'no-cache' }); document.getElementById('ping-val').innerText = Math.round(performance.now() - start); }
+            catch (e) { document.getElementById('ping-val').innerText = "??"; }
+        }
+        setInterval(updatePing, 5000); updatePing();
+
+        // Particles
+        const canvas = document.getElementById('bg-canvas'), ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let pArray = [];
+        class Particle {
+            constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.dx = Math.random()*0.4-0.2; this.dy = Math.random()*0.4-0.2; this.s = Math.random()*6+2; }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.s, 0, Math.PI*2); ctx.fillStyle = 'rgba(0,123,255,0.2)'; ctx.fill(); }
+            update() { if(this.x > canvas.width || this.x < 0) this.dx *= -1; if(this.y > canvas.height || this.y < 0) this.dy *= -1; this.x += this.dx; this.y += this.dy; this.draw(); }
+        }
+        function init() { for(let i=0; i<35; i++) pArray.push(new Particle()); }
+        function animate() { ctx.fillStyle = 'rgba(5,5,5,0.1)'; ctx.fillRect(0,0,canvas.width,canvas.height); pArray.forEach(p => p.update()); requestAnimationFrame(animate); }
+        init(); animate();
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
     </script>
 </body>
 </html>
