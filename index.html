@@ -79,13 +79,41 @@
         .drop-actions { display: flex; gap: 8px; }
         .drop-actions a, .drop-actions button { background: #222; border: 1px solid #444; color: white; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 11px; text-decoration: none; }
 
-        /* AI Widget */
+        /* AI Widget & Bubble Professional UI */
         #ai-widget { position: fixed; bottom: 100px; right: 20px; z-index: 2000; }
+        
         .ai-btn { width: 55px; height: 55px; border-radius: 50%; background: var(--bg); border: 2px solid var(--primary); color: white; font-size: 24px; cursor: pointer; box-shadow: 0 0 15px var(--primary); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        #ai-window { display: none; position: absolute; bottom: 70px; right: 0; width: 300px; height: 400px; background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(15px); border: 1px solid var(--primary); border-radius: 20px; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .msg { padding: 8px 12px; border-radius: 12px; max-width: 85%; line-height: 1.4; font-size: 13px; }
-        .user-msg { background: var(--primary); align-self: flex-end; color: white; border-bottom-right-radius: 2px; }
-        .bot-msg { background: #222; align-self: flex-start; color: #ccc; border-bottom-left-radius: 2px; border: 1px solid #333; }
+        
+        #ai-window { display: none; position: absolute; bottom: 70px; right: 0; width: 300px; height: 400px; background: rgba(10, 10, 10, 0.98); backdrop-filter: blur(15px); border: 1px solid var(--primary); border-radius: 20px; flex-direction: column; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        
+        /* Mesajların üst üste binmesini ve bar gibi uzamasını engelleyen kritik alan */
+        #ai-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+
+        .msg { 
+            padding: 10px 14px; 
+            border-radius: 15px; 
+            max-width: 85%; 
+            line-height: 1.4; 
+            font-size: 13px; 
+            width: fit-content; /* Sadece metin kadar genişlik kaplar */
+            word-wrap: break-word; 
+            display: block;
+        }
+
+        .user-msg { 
+            background: var(--primary); 
+            align-self: flex-end; /* Sağa yaslar */
+            color: white; 
+            border-bottom-right-radius: 2px; 
+        }
+
+        .bot-msg { 
+            background: #222; 
+            align-self: flex-start; /* Sola yaslar */
+            color: #ccc; 
+            border: 1px solid #333; 
+            border-bottom-left-radius: 2px; 
+        }
 
         /* Harita */
         #map-container-hub, #map-container-admin { width: 100%; height: 220px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.05); margin-top: 10px; z-index: 10; filter: invert(90%) hue-rotate(180deg) brightness(95%) contrast(85%); }
@@ -248,56 +276,77 @@
         const AI_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxaYaD_hj09QxusMEcqPplGYUAMrmIl54VQe2weBKpt_3YEqA1Bom9CRWklE2HjUjtm/exec"; 
         const DRIVE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxf0xq93dECfteJtaDQxZVl78-LVvLVRRd_LPTK9zXEwmR5LXHhnWYJ3HhqWnqD8X1mrg/exec";
 
-        // --- AI MODULE (WITH MIDNIGHT RESET) ---
-        function getChatHistory() {
-            const today = new Date().toLocaleDateString('tr-TR');
-            const savedDate = localStorage.getItem('squadChatDate');
-            if (savedDate !== today) {
-                localStorage.removeItem('squadChatHistory');
-                localStorage.setItem('squadChatDate', today);
-                return [];
-            }
-            return JSON.parse(localStorage.getItem('squadChatHistory')) || [];
-        }
+        // --- AI MODULE (CLEAN RENDER & PERSISTENCE) ---
+function getChatHistory() {
+    const today = new Date().toLocaleDateString('tr-TR');
+    const savedDate = localStorage.getItem('squadChatDate');
+    
+    // Günlük sıfırlama kontrolü
+    if (savedDate !== today) {
+        localStorage.removeItem('squadChatHistory');
+        localStorage.setItem('squadChatDate', today);
+        return [];
+    }
+    return JSON.parse(localStorage.getItem('squadChatHistory')) || [];
+}
 
-        let chatHistory = getChatHistory();
+let chatHistory = getChatHistory();
 
-        function renderAIChat() {
-            const cont = document.getElementById('ai-messages');
-            if (chatHistory.length === 0) {
-                cont.innerHTML = '<div class="msg bot-msg">Sistem hazır. Analiz için giriş bekleniyor... ⚡</div>';
-            } else {
-                cont.innerHTML = '';
-                chatHistory.forEach(m => {
-                    cont.innerHTML += `<div class="msg ${m.role === 'bot' ? 'bot-msg' : 'user-msg'}">${m.text}</div>`;
-                });
-            }
-            cont.scrollTop = cont.scrollHeight;
-        }
+function renderAIChat() {
+    const cont = document.getElementById('ai-messages');
+    if (!cont) return;
 
-        async function handleChat(e) {
-            const inp = document.getElementById('ai-input');
-            if(e.key === 'Enter' && inp.value.trim() !== "") {
-                const msg = inp.value; inp.value = ""; inp.disabled = true;
-                chatHistory.push({role: 'user', text: msg});
+    cont.innerHTML = ''; // Önce kutuyu temizle, üst üste binmeyi bitir.
+
+    if (chatHistory.length === 0) {
+        // İlk açılış mesajı
+        const startMsg = document.createElement('div');
+        startMsg.className = 'msg bot-msg';
+        startMsg.innerText = 'Sistem hazır. Analiz için giriş bekleniyor... ⚡';
+        cont.appendChild(startMsg);
+    } else {
+        chatHistory.forEach(m => {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = `msg ${m.role === 'bot' ? 'bot-msg' : 'user-msg'}`;
+            msgDiv.innerText = m.text;
+            cont.appendChild(msgDiv);
+        });
+    }
+    cont.scrollTop = cont.scrollHeight; // En aşağı kaydır
+}
+
+async function handleChat(e) {
+    const inp = document.getElementById('ai-input');
+    if(e.key === 'Enter' && inp.value.trim() !== "") {
+        const userText = inp.value.trim();
+        inp.value = ""; 
+        inp.disabled = true;
+
+        // Kullanıcı mesajını ekle
+        chatHistory.push({role: 'user', text: userText});
+        renderAIChat();
+
+        try {
+            const res = await fetch(AI_SCRIPT_URL, { 
+                method: 'POST', 
+                body: JSON.stringify({ contents: chatHistory.map(m => ({ role: m.role === 'bot' ? 'model' : 'user', parts: [{ text: m.text }] })) }) 
+            });
+            const data = await res.json();
+            
+            if(data.candidates && data.candidates[0].content.parts[0].text) {
+                const aiMsg = data.candidates[0].content.parts[0].text;
+                chatHistory.push({role: 'bot', text: aiMsg});
+                localStorage.setItem('squadChatHistory', JSON.stringify(chatHistory));
                 renderAIChat();
-                try {
-                    const res = await fetch(AI_SCRIPT_URL, { 
-                        method: 'POST', 
-                        body: JSON.stringify({ contents: chatHistory.map(m => ({ role: m.role === 'bot' ? 'model' : 'user', parts: [{ text: m.text }] })) }) 
-                    });
-                    const data = await res.json();
-                    if(data.candidates) {
-                        const aiMsg = data.candidates[0].content.parts[0].text;
-                        chatHistory.push({role: 'bot', text: aiMsg});
-                        localStorage.setItem('squadChatHistory', JSON.stringify(chatHistory));
-                        renderAIChat();
-                    }
-                } catch (err) { console.error("AI Error"); }
-                inp.disabled = false; inp.focus();
             }
+        } catch (err) {
+            console.error("AI bağlantı hatası.");
         }
-        window.addEventListener('DOMContentLoaded', renderAIChat);
+        inp.disabled = false;
+        inp.focus();
+    }
+}
+window.addEventListener('DOMContentLoaded', renderAIChat);
         function toggleAI() { const win = document.getElementById('ai-window'); win.style.display = win.style.display === 'flex' ? 'none' : 'flex'; }
 
         // --- CLOCK & GREETING SYSTEM ---
